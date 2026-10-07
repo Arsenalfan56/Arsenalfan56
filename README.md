@@ -1,4 +1,4 @@
-# Diagrama de Arquitectura de Red
+# Diagrama de arquitectura de red
 
 ```mermaid
 graph LR
@@ -10,10 +10,8 @@ graph LR
     classDef datos fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
     classDef salida fill:#fafafa,stroke:#616161,stroke-width:2px,stroke-dasharray: 5 5
 
-    %% Elementos Externos y Tráfico
     Internet(("🌐 Internet")):::salida
 
-    %% Subgrafiado de las 3 Conexiones / Zonas Geográficas
     subgraph Zonas ["Zonas de Tráfico Remoto (Sedes)"]
         direction TB
         CBP["🏢 Zona CBP<br/>Tráfico Local Sedes"]:::sedes
@@ -21,19 +19,16 @@ graph LR
         Colon["🏢 Zona Edificio Colón<br/>Tráfico Administrativo GSI"]:::sedes
     end
 
-    %% Subgrafiado de Infraestructura de Red y Seguridad Perimetral
     subgraph Perímetro ["Infraestructura de Red Core"]
         direction LR
         Router["🎛️ Router Central<br/>Enrutamiento GSI"]:::red
         Firewall["🔥 Firewall Perimetral<br/>Políticas de Seguridad"]:::red
     end
 
-    Tráfico(("🔌 Tráfico de Red Consecutivo<br/>(Consolidated Traffic)")):::red
+    Tráfico(("🔌 Tráfico de Red Consecutivo<br/>Consolidated Traffic")):::red
 
-    %% Subgrafiado de Captura con Herramientas Detalladas
-    Sniffer["👁️ Sniffer de Red & Packet Capture<br/>• Wireshark / Tshark<br/>• Tcpdump (CLI)<br/>• Zeek / Bro (Metadata)<br/>• Arkime / Moloch (FPC)"]:::seguridad
+    Sniffer["👁️ Sniffer de Red & Packet Capture<br/>• Wireshark / Tshark<br/>• Tcpdump CLI<br/>• Zeek / Bro Metadata<br/>• Arkime / Moloch FPC"]:::seguridad
 
-    %% Subgrafiado del Ecosistema NIDS (Maltrail Integrado)
     subgraph NIDS ["Sistema NIDS (Maltrail System)"]
         direction TB
         Sensor["📡 Maltrail Sensor<br/>Rust / libpcap<br/>Trail matching & Heuristics"]:::nids
@@ -41,15 +36,11 @@ graph LR
         Logs[("📁 Event Logs<br/>LOG_DIR local")]:::nids
     end
 
-    %% Base de Datos Centralizada
     DB[("🗄️ Base de Datos Central<br/>Logs históricos, Alertas<br/>& Listas de Amenazas")]:::datos
 
-    %% Destinos de Salida y Visualización
-    Web(("🌍 Sitio Web / Cloud<br/>(Servidor expuesto)")):::salida
+    Web(("🌍 Sitio Web / Cloud<br/>Servidor expuesto")):::salida
     Browser(("💻 Browser<br/>Interfaz de Reportes GSI")):::salida
     SIEM["🛡️ Syslog / SIEM<br/>Formato CEF / JSON"]:::seguridad
-
-    %% --- FLUJOS Y CONEXIONES ---
 
     CBP -->|Enlace Dedicado / VPN| Router
     Guaraguao -->|Enlace Dedicado / VPN| Router
@@ -58,10 +49,10 @@ graph LR
     Internet <-->|WAN| Router
     Router <-->|LAN| Firewall
 
-    Firewall -->|Espejo de Tráfico (SPAN/TAP)| Tráfico
+    Firewall -->|Espejo de Tráfico SPAN/TAP| Tráfico
     Tráfico --> Sniffer
 
-    Sniffer -->|Inyección de Paquetes Raw (libpcap)| Sensor
+    Sniffer -->|Inyección de Paquetes Raw libpcap| Sensor
 
     Sensor -->|Local Events| Logs
     Sensor -->|Remote Events / LOG_SERVER| Server
