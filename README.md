@@ -12,7 +12,7 @@ graph LR
 
     Internet(("🌐 Internet")):::salida
 
-    subgraph Zonas ["Zonas de Tráfico Remoto (Sedes)"]
+    subgraph Zonas ["Zonas de Tráfico Remoto Sedes"]
         direction TB
         CBP["🏢 Zona CBP<br/>Tráfico Local Sedes"]:::sedes
         Guaraguao["🏭 Zona Guaraguao<br/>Tráfico Operaciones / OT"]:::sedes
@@ -29,7 +29,7 @@ graph LR
 
     Sniffer["👁️ Sniffer de Red & Packet Capture<br/>• Wireshark / Tshark<br/>• Tcpdump CLI<br/>• Zeek / Bro Metadata<br/>• Arkime / Moloch FPC"]:::seguridad
 
-    subgraph NIDS ["Sistema NIDS (Maltrail System)"]
+    subgraph NIDS ["Sistema NIDS - Maltrail System"]
         direction TB
         Sensor["📡 Maltrail Sensor<br/>Rust / libpcap<br/>Trail matching & Heuristics"]:::nids
         Server["🖥️ Maltrail Server<br/>Python<br/>Intake, UI & API"]:::nids
